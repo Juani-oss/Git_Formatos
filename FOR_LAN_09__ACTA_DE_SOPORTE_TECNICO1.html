@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOR_LAN_09__ACTA_DE_SOPORTE_TECNICO</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; font-size: 9px; background: #e5e5e5; display: flex; justify-content: center; padding: 20px; }
+
+  .page {
+    background: white;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 6mm 10mm;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  input[type="text"], input[type="time"], textarea { font-family: Arial, sans-serif; font-size: 9px; }
+
+  input[type="text"]:focus, input[type="time"]:focus, textarea:focus {
+    background: #fffde7 !important;
+  }
+
+  /* HEADER */
+  .header { display: flex; border: 2px solid #000; margin-bottom: 8px; }
+  .header-logo { width: 100px; min-height: 40px; border-right: 2px solid #000; display: flex; align-items: center; justify-content: center; padding: 4px; }
+  .header-logo img { max-width: 100%; max-height: 35px; object-fit: contain; }
+  .header-title { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; text-align: center; border-right: 2px solid #000; padding: 6px; }
+  .header-code { width: 120px; display: flex; flex-direction: column; justify-content: center; padding: 4px 6px; font-size: 8px; line-height: 1.4; }
+
+  .section-title {
+    font-weight: bold;
+    font-size: 9px;
+    margin: 6px 0 3px 0;
+    text-decoration: underline;
+  }
+
+  .field-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 2px;
+    align-items: center;
+  }
+
+  .field-group {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .field-group label {
+    font-size: 9px;
+    white-space: nowrap;
+  }
+
+  .field-group input[type="text"], .field-group input[type="time"] {
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    background: transparent;
+    font-size: 9px;
+    padding: 1px 3px;
+  }
+
+  .field-group input.w-full { flex: 1; min-width: 120px; }
+  .field-group input.w-medium { width: 100px; }
+  .field-group input.w-small { width: 70px; }
+
+  /* CHECKBOXES */
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 3px 0;
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 9px;
+  }
+
+  .checkbox-item input[type="checkbox"] {
+    width: 11px;
+    height: 11px;
+    cursor: pointer;
+  }
+
+  /* Item personalizado con input */
+  .custom-item {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 9px;
+  }
+
+  .custom-item input[type="text"] {
+    border: none;
+    border-bottom: 1px solid #999;
+    outline: none;
+    background: transparent;
+    font-size: 9px;
+    width: 70px;
+    padding: 1px 2px;
+  }
+
+  .custom-item .btn-remove-item {
+    background: #dc2626;
+    color: white;
+    border: none;
+    width: 14px;
+    height: 14px;
+    font-size: 9px;
+    cursor: pointer;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Botón agregar */
+  .btn-add {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 2px 6px;
+    font-size: 8px;
+    cursor: pointer;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .btn-add:hover {
+    background: #1d4ed8;
+  }
+
+  .textarea-field {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    background: transparent;
+    font-size: 9px;
+    resize: none;
+    min-height: 14px;
+    padding: 1px 3px;
+  }
+
+  /* TABLA EQUIPOS */
+  .equipo-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0;
+    font-size: 8px;
+  }
+
+  .equipo-table th, .equipo-table td {
+    border: 1px solid #000;
+    padding: 2px 4px;
+    text-align: center;
+  }
+
+  .equipo-table th {
+    background: #f0f0f0;
+    font-weight: bold;
+  }
+
+  .equipo-table input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 8px;
+    text-align: center;
+  }
+
+  .equipo-table input:focus {
+    background: #fffde7;
+  }
+
+  .equipo-table .btn-remove-row {
+    background: #dc2626;
+    color: white;
+    border: none;
+    width: 16px;
+    height: 16px;
+    font-size: 9px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .table-actions {
+    margin: 3px 0;
+    display: flex;
+    gap: 8px;
+  }
+
+  /* HORAS */
+  .horas-container {
+    display: flex;
+    gap: 20px;
+    margin: 6px 0;
+  }
+
+  .horas-col { flex: 1; }
+
+  .horas-title {
+    font-weight: bold;
+    font-size: 9px;
+    text-decoration: underline;
+    margin-bottom: 3px;
+  }
+
+  .horas-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+    font-size: 9px;
+  }
+
+  .horas-row label { width: 70px; }
+
+  .horas-row input[type="text"], .horas-row input[type="time"] {
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    background: transparent;
+    font-size: 9px;
+    width: 70px;
+    padding: 1px;
+  }
+
+  /* OBSERVACIONES */
+  .observaciones-box {
+    border: 1px solid #000;
+    padding: 5px;
+    margin: 6px 0;
+    min-height: 35px;
+  }
+
+  .observaciones-box textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 9px;
+    resize: none;
+    min-height: 22px;
+  }
+
+  .nota-importante {
+    font-size: 8px;
+    margin: 6px 0;
+    padding: 3px;
+    border-top: 1px solid #000;
+  }
+
+  /* FIRMAS */
+  .firmas-container { display: flex; gap: 30px; margin-top: 8px; }
+  .firma-box { flex: 1; text-align: center; }
+
+  .firma-label {
+    font-size: 8px;
+    font-weight: bold;
+    margin-bottom: 3px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+  }
+
+  .signature-container { position: relative; margin: 5px 0; }
+
+  /* Canvas de firma */
+  .signature-canvas {
+    width: 100%;
+    height: 55px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    background: #fafafa;
+    touch-action: none;
+    cursor: crosshair;
+  }
+
+  .btn-clear-firma {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 1px 4px;
+    font-size: 7px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .firma-field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 8px;
+    margin-top: 3px;
+  }
+
+  .firma-field label { font-weight: bold; }
+
+  .firma-field input {
+    border: none;
+    border-bottom: 1px solid #999;
+    outline: none;
+    font-size: 8px;
+    background: transparent;
+    width: 100px;
+    text-align: center;
+  }
+
+  /* BOTONES */
+  .btn-wrap { 
+    margin-top: 15px; 
+    display: flex; 
+    gap: 12px; 
+    justify-content: center; 
+    flex-wrap: wrap;
+  }
+  
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  
+  .btn-limpiar { background: linear-gradient(135deg, #6b7280, #4b5563); color: white; }
+  .btn-imprimir { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
+  .btn-pdf { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+
+  /* PRINT */
+  @page { size: A4 portrait; margin: 0; }
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { background: white; padding: 0; display: block; }
+    .page { border: none; box-shadow: none; width: 210mm; min-height: 297mm; padding: 6mm 10mm; }
+    .btn-wrap, .btn-clear-firma, .btn-add, .btn-remove-row, .btn-remove-item, .table-actions { display: none !important; }
+    .signature-canvas { border: 1px solid #ccc; }
+    input:focus, textarea:focus { background: transparent !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page" id="formulario">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-logo">
+      <img src="https://cas.telconet.ec/cas/images/img-01.png" alt="TELCONET" onerror="this.onerror=null; this.parentNode.innerHTML='<div style=\'font-weight:bold;font-size:11px;color:#003366;\'>TELCONET</div>';">
+    </div>
+    <div class="header-title">ACTA DE SOPORTE TÉCNICO</div>
+    <div class="header-code">
+      <span><b>Código:</b> FOR LAN 09</span>
+      <span><b>Versión:</b> 1 (18/03/2024)</span>
+      <span><b>Página:</b> 1 de 1</span>
+    </div>
+  </div>
+
+  <!-- DATOS DEL CLIENTE -->
+  <div class="section-title">Datos del Cliente:</div>
+  
+  <div class="field-row">
+    <div class="field-group" style="flex:1;">
+      <label>Organización:</label>
+      <input type="text" class="w-full">
+    </div>
+    <div class="field-group">
+      <label>Fecha:</label>
+      <input type="date" style="border:none;border-bottom:1px solid #000;outline:none;background:transparent;font-size:9px;">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group" style="flex:1;">
+      <label>Contacto:</label>
+      <input type="text" class="w-full">
+    </div>
+    <div class="field-group">
+      <label>Ciudad:</label>
+      <input type="text" class="w-medium">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group" style="flex:1;">
+      <label>Dirección:</label>
+      <input type="text" class="w-full">
+    </div>
+    <div class="field-group">
+      <label>Teléfono:</label>
+      <input type="text" class="w-medium">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group" style="flex:1;">
+      <label>R.U.C / C.I:</label>
+      <input type="text" class="w-full">
+    </div>
+    <div class="field-group">
+      <label>Email:</label>
+      <input type="text" class="w-medium">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group" style="flex:1;">
+      <label># Tarea:</label>
+      <input type="text" class="w-full">
+    </div>
+  </div>
+
+  <!-- DATOS DE VISITA -->
+  <div class="section-title">Datos de Visita:</div>
+  
+  <div class="field-row" style="align-items: flex-start;">
+    <label style="font-size:9px;margin-top:2px;">Tipo de Sistema:</label>
+    <div class="checkbox-group" id="tipoSistemaContainer">
+      <div class="checkbox-item"><input type="checkbox"> Cámaras</div>
+      <div class="checkbox-item"><input type="checkbox"> Control de Accesos</div>
+      <div class="checkbox-item"><input type="checkbox"> Sistema de Incendio</div>
+      <div class="checkbox-item"><input type="checkbox"> Cerco Eléctrico</div>
+      <div class="checkbox-item"><input type="checkbox"> Sistema de Intrusión</div>
+      <div class="checkbox-item"><input type="checkbox"> Safe Entry</div>
+    </div>
+    <button class="btn-add" onclick="agregarTipoSistema()">+ Añadir</button>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group" style="flex:1;">
+      <label>Requerimiento:</label>
+      <input type="text" class="w-full">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group" style="flex:1;">
+      <label>Solicitado por:</label>
+      <input type="text" class="w-full">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group" style="flex:1;">
+      <label>Técnico Asignado / Cuadrilla:</label>
+      <input type="text" class="w-full">
+    </div>
+    <div class="field-group">
+      <label>Hora de Visita:</label>
+      <input type="time" style="border:none;border-bottom:1px solid #000;outline:none;background:transparent;font-size:9px;">
+    </div>
+  </div>
+
+  <!-- DATOS DE TÉCNICOS -->
+  <div class="section-title">Datos de Técnicos:</div>
+  
+  <div class="field-row">
+    <label style="font-size:9px;">Descripción del problema / Avance del proyecto:</label>
+  </div>
+  <textarea class="textarea-field" oninput="autoResize(this)" style="min-height:20px;"></textarea>
+
+  <div class="field-row" style="margin-top:4px;">
+    <label style="font-size:9px;">Acciones Correctivas:</label>
+  </div>
+  <textarea class="textarea-field" oninput="autoResize(this)" style="min-height:18px;"></textarea>
+
+  <div class="field-row" style="margin-top:4px;">
+    <label style="font-size:9px;">Recomendaciones:</label>
+  </div>
+  <textarea class="textarea-field" oninput="autoResize(this)" style="min-height:18px;"></textarea>
+
+  <!-- TABLA EQUIPO -->
+  <table class="equipo-table" id="equipoTable">
+    <thead>
+      <tr>
+        <th colspan="7">EQUIPO INSTALADO/CAMBIO</th>
+      </tr>
+      <tr>
+        <th colspan="3">NUEVO</th>
+        <th colspan="3">ANTIGUO</th>
+        <th style="width:25px;"></th>
+      </tr>
+      <tr>
+        <th>MARCA</th>
+        <th>MODELO</th>
+        <th>SERIE</th>
+        <th>MARCA</th>
+        <th>MODELO</th>
+        <th>SERIE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="equipoTableBody">
+      <tr>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><button class="btn-remove-row" onclick="eliminarFilaEquipo(this)">✕</button></td>
+      </tr>
+      <tr>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><button class="btn-remove-row" onclick="eliminarFilaEquipo(this)">✕</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-actions">
+    <button class="btn-add" onclick="agregarFilaEquipo()">+ Añadir Fila de Equipo</button>
+  </div>
+
+  <!-- HORAS Y TIPO SERVICIO EN LA MISMA FILA -->
+  <div class="horas-container">
+    <div class="horas-col">
+      <div class="horas-title">Horas empleadas en Visita:</div>
+      <div class="horas-row">
+        <label>Hora de inicio:</label>
+        <input type="time">
+      </div>
+      <div class="horas-row">
+        <label>Hora final:</label>
+        <input type="time">
+      </div>
+      <div class="horas-row">
+        <label>Total, de horas:</label>
+        <input type="text">
+      </div>
+      <div class="horas-row">
+        <label>Facturar</label>
+        <div class="checkbox-item"><input type="checkbox"> SI</div>
+        <div class="checkbox-item"><input type="checkbox"> NO</div>
+      </div>
+      <div class="horas-row">
+        <label>Estatus</label>
+        <div class="checkbox-item"><input type="checkbox"> Terminado</div>
+        <div class="checkbox-item"><input type="checkbox"> Pendiente</div>
+      </div>
+    </div>
+
+    <div class="horas-col">
+      <div class="horas-title">Tipo de Servicio:</div>
+      <div class="horas-row">
+        <div class="checkbox-item"><input type="checkbox"> Garantía</div>
+        <div class="checkbox-item" style="margin-left:15px;"><input type="checkbox"> Reparaciones</div>
+      </div>
+      <div class="horas-row">
+        <div class="checkbox-item"><input type="checkbox"> Mantenimiento</div>
+        <div class="checkbox-item" style="margin-left:15px;"><input type="checkbox"> Soporte</div>
+      </div>
+      <div class="horas-row">
+        <div class="checkbox-item"><input type="checkbox"> Otros</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBSERVACIONES -->
+  <div class="section-title">Campos para el Cliente:</div>
+  <div class="observaciones-box">
+    <div style="font-size:8px;margin-bottom:2px;"><i>Observaciones:</i></div>
+    <textarea oninput="autoResize(this)"></textarea>
+  </div>
+
+  <!-- NOTA -->
+  <div class="nota-importante">
+    <b>Importante:</b> la firma de este documento implica la aceptación de los cargos por el o los servicios brindados.
+  </div>
+
+  <!-- FIRMAS -->
+  <div class="firmas-container">
+    <div class="firma-box">
+      <div class="firma-label">NOMBRE TÉCNICO ENCARGADO</div>
+      <input type="text" style="width:100%;border:none;border-bottom:1px solid #000;outline:none;text-align:center;font-size:9px;margin-bottom:5px;">
+      
+      <div style="font-size:8px;text-align:left;margin-bottom:2px;">FIRMA TÉCNICO ENCARGADO</div>
+      <div class="signature-container">
+        <canvas id="firmaTecnico" class="signature-canvas"></canvas>
+        <button class="btn-clear-firma" onclick="limpiarFirma('firmaTecnico')">✕</button>
+      </div>
+      
+      <div class="firma-field">
+        <label>C.I:</label>
+        <input type="text">
+      </div>
+    </div>
+
+    <div class="firma-box">
+      <div class="firma-label">NOMBRE CLIENTE</div>
+      <input type="text" style="width:100%;border:none;border-bottom:1px solid #000;outline:none;text-align:center;font-size:9px;margin-bottom:5px;">
+      
+      <div style="font-size:8px;text-align:left;margin-bottom:2px;">FIRMA CLIENTE</div>
+      <div class="signature-container">
+        <canvas id="firmaCliente" class="signature-canvas"></canvas>
+        <button class="btn-clear-firma" onclick="limpiarFirma('firmaCliente')">✕</button>
+      </div>
+      
+      <div class="firma-field">
+        <label>C.I:</label>
+        <input type="text">
+      </div>
+      <div class="firma-field">
+        <label>CARGO:</label>
+        <input type="text">
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTONES -->
+  <div class="btn-wrap">
+    <button class="btn btn-limpiar" onclick="limpiarFormulario()">
+      <span>🔄</span> Limpiar Todo
+    </button>
+    <button class="btn btn-imprimir" onclick="imprimir()">
+      <span>📄</span> Guardar
+    </button>
+  </div>
+
+</div>
+
+<script>
+  // Auto resize
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+
+  // Agregar tipo de sistema personalizado
+  function agregarTipoSistema() {
+    const container = document.getElementById('tipoSistemaContainer');
+    const newItem = document.createElement('div');
+    newItem.className = 'custom-item';
+    newItem.innerHTML = `
+      <input type="checkbox" checked>
+      <input type="text" placeholder="Nuevo item..." autofocus>
+      <button class="btn-remove-item" onclick="this.parentElement.remove()">✕</button>
+    `;
+    container.appendChild(newItem);
+    newItem.querySelector('input[type="text"]').focus();
+  }
+
+  // Agregar fila de equipo
+  function agregarFilaEquipo() {
+    const tbody = document.getElementById('equipoTableBody');
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><button class="btn-remove-row" onclick="eliminarFilaEquipo(this)">✕</button></td>
+    `;
+    tbody.appendChild(newRow);
+  }
+
+  // Eliminar fila de equipo
+  function eliminarFilaEquipo(btn) {
+    const tbody = document.getElementById('equipoTableBody');
+    if (tbody.rows.length > 1) {
+      btn.closest('tr').remove();
+    } else {
+      alert('Debe mantener al menos una fila');
+    }
+  }
+
+  // Imprimir
+  function imprimir() {
+    document.title = 'FOR_LAN_09__ACTA_DE_SOPORTE_TECNICO';
+    window.print();
+  }
+
+  // Guardar PDF - CORREGIDO
+  function guardarPDF() {
+    const element = document.getElementById('formulario');
+    const btnWrap = document.querySelector('.btn-wrap');
+    const clearBtns = document.querySelectorAll('.btn-clear-firma, .btn-add, .btn-remove-row, .btn-remove-item, .table-actions');
+    
+    btnWrap.style.display = 'none';
+    clearBtns.forEach(btn => btn.style.display = 'none');
+    
+    html2pdf().set({
+      margin: [6, 10, 6, 10],
+      filename: 'Acta_Soporte_Tecnico_Telconet.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { 
+        scale: 2, 
+        useCORS: true, 
+        backgroundColor: '#ffffff',
+        logging: false
+      },
+      jsPDF: { 
+        unit: 'mm', 
+        format: 'a4', 
+        orientation: 'portrait'
+      },
+      pagebreak: { mode: 'avoid-all' }
+    }).from(element).save().then(() => {
+      btnWrap.style.display = 'flex';
+      clearBtns.forEach(btn => btn.style.display = '');
+    });
+  }
+
+  // Limpiar formulario
+  function limpiarFormulario() {
+    if (!confirm('¿Está seguro de limpiar todo el formulario?')) return;
+    
+    document.querySelectorAll('input[type="text"], input[type="time"], input[type="date"], textarea').forEach(el => el.value = '');
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+    
+    // Eliminar items personalizados
+    document.querySelectorAll('.custom-item').forEach(el => el.remove());
+    
+    // Resetear tabla a 2 filas
+    const tbody = document.getElementById('equipoTableBody');
+    tbody.innerHTML = `
+      <tr>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><button class="btn-remove-row" onclick="eliminarFilaEquipo(this)">✕</button></td>
+      </tr>
+      <tr>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><button class="btn-remove-row" onclick="eliminarFilaEquipo(this)">✕</button></td>
+      </tr>
+    `;
+    
+    limpiarFirma('firmaTecnico');
+    limpiarFirma('firmaCliente');
+  }
+
+  // ===== FIRMAS =====
+  const canvasIds = ['firmaTecnico', 'firmaCliente'];
+  const contexts = {};
+
+  canvasIds.forEach(id => {
+    const canvas = document.getElementById(id);
+    setupCanvas(canvas, id);
+  });
+
+  function setupCanvas(canvas, id) {
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+    }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    contexts[id] = { canvas, ctx, drawing: false, lastX: 0, lastY: 0 };
+
+    canvas.addEventListener('mousedown', e => startDraw(e, id));
+    canvas.addEventListener('mousemove', e => draw(e, id));
+    canvas.addEventListener('mouseup', () => stopDraw(id));
+    canvas.addEventListener('mouseout', () => stopDraw(id));
+
+    canvas.addEventListener('touchstart', e => { e.preventDefault(); startDraw(e.touches[0], id); }, { passive: false });
+    canvas.addEventListener('touchmove', e => { e.preventDefault(); draw(e.touches[0], id); }, { passive: false });
+    canvas.addEventListener('touchend', () => stopDraw(id));
+  }
+
+  function getCoords(e, id) {
+    const rect = contexts[id].canvas.getBoundingClientRect();
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  }
+
+  function startDraw(e, id) {
+    const coords = getCoords(e, id);
+    contexts[id].drawing = true;
+    contexts[id].lastX = coords.x;
+    contexts[id].lastY = coords.y;
+  }
+
+  function draw(e, id) {
+    if (!contexts[id].drawing) return;
+    const coords = getCoords(e, id);
+    const ctx = contexts[id].ctx;
+    ctx.beginPath();
+    ctx.moveTo(contexts[id].lastX, contexts[id].lastY);
+    ctx.lineTo(coords.x, coords.y);
+    ctx.stroke();
+    contexts[id].lastX = coords.x;
+    contexts[id].lastY = coords.y;
+  }
+
+  function stopDraw(id) { contexts[id].drawing = false; }
+
+  function limpiarFirma(id) {
+    const ctx = contexts[id].ctx;
+    const rect = contexts[id].canvas.getBoundingClientRect();
+    ctx.clearRect(0, 0, rect.width, rect.height);
+  }
+</script>
+</body>
+</html>
