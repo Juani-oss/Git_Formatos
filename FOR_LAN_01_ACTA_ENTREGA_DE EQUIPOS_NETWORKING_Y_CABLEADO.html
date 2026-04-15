@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FOR_LAN_01__ACTA_ENTREGA_RECEPCION_EQUIPOS_NETWORKING_CABLEADO</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; font-size: 9px; background: #e5e5e5; display: flex; justify-content: center; padding: 20px; }
+
+  .page {
+    background: white;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 8mm 12mm;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  input[type="text"], input[type="time"], input[type="date"] { 
+    font-family: Arial, sans-serif; 
+    font-size: 9px; 
+  }
+
+  input[type="text"]:focus, input[type="time"]:focus, input[type="date"]:focus {
+    background: #fffde7 !important;
+  }
+
+  /* HEADER */
+  .header { display: flex; border: 2px solid #000; margin-bottom: 8px; }
+  .header-logo { width: 100px; min-height: 40px; border-right: 2px solid #000; display: flex; align-items: center; justify-content: center; padding: 4px; }
+  .header-logo img { max-width: 100%; max-height: 35px; object-fit: contain; }
+  .header-title { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; text-align: center; border-right: 2px solid #000; padding: 6px; }
+  .header-code { width: 120px; display: flex; flex-direction: column; justify-content: center; padding: 4px 6px; font-size: 8px; line-height: 1.4; }
+
+
+  /* DATOS - Formato con líneas */
+  .datos-section {
+    margin-bottom: 12px;
+  }
+
+  .datos-row {
+    display: flex;
+  }
+
+  .datos-left {
+    flex: 1;
+  }
+
+  .datos-right {
+    width: 180px;
+    padding-left: 20px;
+  }
+
+  .campo {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 2px;
+    font-size: 9px;
+    font-style: italic;
+  }
+
+  .campo label {
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .campo input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    background: transparent;
+    font-size: 9px;
+    padding: 1px 3px;
+    margin-left: 3px;
+  }
+
+  /* TABLA */
+  .tabla-container {
+    margin: 10px 0;
+  }
+
+  .equipos-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .equipos-table thead tr {
+    background: linear-gradient(to right, #ceb5ff);
+  }
+
+  .equipos-table th {
+    padding: 6px 4px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 9px;
+    color: #000000;
+  }
+
+  .equipos-table tbody td {
+    border: 1px solid #d5d8dc;
+    padding: 0;
+    text-align: center;
+    background: #d4e6f1;
+    height: 20px;
+  }
+
+  .equipos-table tbody tr:nth-child(odd) td {
+    background: #FFFF;
+  }
+
+  .equipos-table tbody tr:nth-child(even) td {
+    background: #c4dff5;
+  }
+
+  .equipos-table input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 9px;
+    text-align: center;
+    padding: 3px;
+  }
+
+  .equipos-table input:focus {
+    background: #fffde7;
+  }
+
+  .equipos-table .col-btn {
+    background: white !important;
+    border: none !important;
+    width: 22px;
+    padding: 2px;
+  }
+
+  .btn-remove-row {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+    cursor: pointer;
+    border-radius: 3px;
+    line-height: 1;
+  }
+
+  .table-actions {
+    margin: 6px 0;
+  }
+
+  .btn-add {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 9px;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+
+  /* CONFIGURACIÓN */
+  .config-section {
+    margin: 15px 0;
+    font-style: italic;
+    font-size: 9px;
+  }
+
+  .config-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3px;
+  }
+
+  .config-row label {
+    width: 200px;
+  }
+
+  .config-row .opciones {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .config-row .opciones span {
+    margin-right: 2px;
+  }
+
+  .config-row input[type="checkbox"] {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* FIRMAS */
+  .firmas-section {
+    margin-top: 25px;
+  }
+
+  .firmas-header {
+    display: flex;
+    margin-bottom: 8px;
+  }
+
+  .firmas-header div {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+    font-size: 9px;
+  }
+
+  .firmas-container {
+    display: flex;
+    gap: 30px;
+  }
+
+  .firma-box {
+    flex: 1;
+    padding: 0 15px;
+  }
+
+  .signature-container {
+    position: relative;
+    margin-bottom: 8px;
+  }
+
+  .signature-canvas {
+    width: 100%;
+    height: 55px;
+    border: 1px dashed #bbb;
+    background: #fafafa;
+    touch-action: none;
+    cursor: crosshair;
+  }
+
+  .btn-clear-firma {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 2px 5px;
+    font-size: 8px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .firma-campo {
+    display: flex;
+    align-items: baseline;
+    font-size: 9px;
+    margin-bottom: 3px;
+  }
+
+  .firma-campo label {
+    width: 55px;
+  }
+
+  .firma-campo input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px dotted #000;
+    outline: none;
+    font-size: 9px;
+    background: transparent;
+    padding: 2px;
+  }
+
+  .firma-empresa {
+    font-size: 9px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  /* FOOTER */
+  .footer {
+    position: absolute;
+    bottom: 8mm;
+    left: 12mm;
+    right: 12mm;
+    text-align: center;
+    font-size: 7px;
+    color: #555;
+    border-top: 1px solid #ddd;
+    padding-top: 4px;
+  }
+
+  /* BOTONES */
+  .btn-wrap {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  }
+
+  .btn:active { transform: scale(0.98); }
+  .btn-limpiar { background: linear-gradient(135deg, #6b7280, #4b5563); color: white; }
+  .btn-guardar { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+
+  /* RESPONSIVE */
+  @media screen and (max-width: 600px) {
+    body { padding: 5px; }
+    .page { padding: 5mm; width: 100%; min-height: auto; }
+    .header { flex-direction: column; align-items: center; text-align: center; }
+    .header-logo { margin-right: 0; margin-bottom: 8px; }
+    .datos-row { flex-direction: column; }
+    .datos-right { width: 100%; padding-left: 0; margin-top: 5px; }
+    .firmas-container { flex-direction: column; gap: 15px; }
+    .firmas-header { flex-direction: column; gap: 5px; }
+    .signature-canvas { height: 80px; }
+    .btn-wrap { flex-direction: column; }
+    .btn { width: 100%; justify-content: center; }
+    .footer { position: relative; bottom: auto; margin-top: 15px; }
+  }
+
+  /* PRINT */
+  @page { size: A4 portrait; margin: 0; }
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { background: white; padding: 0; }
+    .page { border: none; box-shadow: none; width: 210mm; min-height: 297mm; padding: 8mm 12mm; }
+    .btn-wrap, .btn-clear-firma, .btn-add, .table-actions { display: none !important; }
+    .col-btn { display: none !important; }
+    .signature-canvas { border: 1px solid #ddd; }
+    input:focus { background: transparent !important; }
+    .header { flex-direction: row; }
+    .datos-row { flex-direction: row; }
+    .datos-right { width: 180px; padding-left: 20px; }
+    .firmas-container { flex-direction: row; }
+    .firmas-header { flex-direction: row; }
+    .footer { position: absolute; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page" id="formulario">
+
+   <!-- HEADER -->
+  <div class="header">
+    <div class="header-logo">
+      <img src="https://cas.telconet.ec/cas/images/img-01.png" alt="TELCONET" onerror="this.onerror=null; this.parentNode.innerHTML='<div style=\'font-weight:bold;font-size:11px;color:#003366;\'>TELCONET</div>';">
+    </div>
+    <div class="header-title">ACTA ENTREGA RECEPCIÓN DE EQUIPOS DE NETWORKING Y CABLEADO</div>
+    <div class="header-code">
+      <span><b>Código:</b> FOR LAN 01</span>
+      <span><b>Versión:</b> 1 (04/03/2024)</span>
+      <span><b>Página:</b> 1 de 1</span>
+    </div>
+  </div>
+
+  <!-- DATOS -->
+  <div class="datos-section">
+    <div class="datos-row">
+      <div class="datos-left">
+        <div class="campo">
+          <label>CLIENTE:</label>
+          <input type="text">
+        </div>
+        <div class="campo">
+          <label>CONTACTO:</label>
+          <input type="text">
+        </div>
+        <div class="campo">
+          <label>NUMERO DE TAREA:</label>
+          <input type="text">
+        </div>
+        <div class="campo">
+          <label>TELÉFONO:</label>
+          <input type="text">
+        </div>
+        <div class="campo">
+          <label>CORREO ELECTRÓNICO:</label>
+          <input type="text">
+        </div>
+        <div class="campo">
+          <label>EJECUTIVO COMERCIAL:</label>
+          <input type="text">
+        </div>
+      </div>
+      <div class="datos-right">
+        <div class="campo" style="margin-top: 28px;">
+          <label>FECHA:</label>
+          <input type="date">
+        </div>
+        <div class="campo">
+          <label>HORA ENTRADA:</label>
+          <input type="time">
+        </div>
+        <div class="campo">
+          <label>HORA SALIDA:</label>
+          <input type="time">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA -->
+  <div class="tabla-container">
+    <table class="equipos-table" id="equiposTable">
+      <thead>
+        <tr>
+          <th style="width:65px;">CANTIDAD</th>
+          <th style="width:90px;">MARCA</th>
+          <th style="width:90px;">MODELO</th>
+          <th>DESCRIPCIÓN</th>
+          <th style="width:90px;">SERIAL</th>
+          <th class="col-btn" style="width:22px;"></th>
+        </tr>
+      </thead>
+      <tbody id="equiposTableBody">
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-actions">
+    <button class="btn-add" onclick="agregarFila()">+ Añadir Fila</button>
+  </div>
+
+  <!-- CONFIGURACIÓN -->
+  <div class="config-section">
+    <div class="config-row">
+      <label>Incluye configuración:</label>
+      <div class="opciones">
+        <span>SI</span><input type="checkbox"> 
+        <span style="margin-left:10px;">NO</span><input type="checkbox">
+      </div>
+    </div>
+    <div class="config-row">
+      <label>Se entrega el sistema funcionando:</label>
+      <div class="opciones">
+        <span>SI</span><input type="checkbox"> 
+        <span style="margin-left:10px;">NO</span><input type="checkbox">
+      </div>
+    </div>
+    <div class="config-row">
+      <label>Se entrega documentación técnica:</label>
+      <div class="opciones">
+        <span>SI</span><input type="checkbox"> 
+        <span style="margin-left:10px;">NO</span><input type="checkbox">
+      </div>
+    </div>
+  </div>
+
+  <!-- FIRMAS -->
+  <div class="firmas-section">
+    <div class="firmas-header">
+      <div>ENTREGADO POR:</div>
+      <div>RECIBE CONFORME</div>
+    </div>
+
+    <div class="firmas-container">
+      <div class="firma-box">
+        <div class="signature-container">
+          <canvas id="firmaEntrega" class="signature-canvas"></canvas>
+          <button class="btn-clear-firma" onclick="limpiarFirma('firmaEntrega')">✕</button>
+        </div>
+        <div class="firma-campo">
+          <label>NOMBRE:</label>
+          <input type="text">
+        </div>
+        <div class="firma-campo">
+          <label>C.I:</label>
+          <input type="text">
+        </div>
+        <div class="firma-empresa">TELCONET S.A.</div>
+      </div>
+
+      <div class="firma-box">
+        <div class="signature-container">
+          <canvas id="firmaRecibe" class="signature-canvas"></canvas>
+          <button class="btn-clear-firma" onclick="limpiarFirma('firmaRecibe')">✕</button>
+        </div>
+        <div class="firma-campo">
+          <label>NOMBRE:</label>
+          <input type="text">
+        </div>
+        <div class="firma-campo">
+          <label>C.I:</label>
+          <input type="text">
+        </div>
+        <div class="firma-campo">
+          <label>CARGO:</label>
+          <input type="text">
+        </div>
+        <div class="firma-campo">
+          <label>CLIENTE:</label>
+          <input type="text">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    * Documento confidencial. Prohibida su divulgación sin autorización expresa de Telconet S.A.
+  </div>
+
+  <!-- BOTONES -->
+  <div class="btn-wrap">
+    <button class="btn btn-limpiar" onclick="limpiarTodo()">🔄 Limpiar Todo</button>
+    <button class="btn btn-guardar" onclick="guardar()">📄 Guardar</button>
+  </div>
+
+</div>
+
+<script>
+  // Inicializar tabla con 8 filas
+  function inicializarTabla() {
+    const tbody = document.getElementById('equiposTableBody');
+    for (let i = 0; i < 8; i++) {
+      agregarFilaSinBoton();
+    }
+  }
+
+  function agregarFilaSinBoton() {
+    const tbody = document.getElementById('equiposTableBody');
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+      <td class="col-btn"><button class="btn-remove-row" onclick="eliminarFila(this)">✕</button></td>
+    `;
+    tbody.appendChild(row);
+  }
+
+  function agregarFila() {
+    agregarFilaSinBoton();
+  }
+
+  function eliminarFila(btn) {
+    const tbody = document.getElementById('equiposTableBody');
+    if (tbody.rows.length > 1) {
+      btn.closest('tr').remove();
+    } else {
+      alert('Debe mantener al menos una fila');
+    }
+  }
+
+  function limpiarTodo() {
+    if (!confirm('¿Está seguro de limpiar todo el formulario?')) return;
+    
+    document.querySelectorAll('input[type="text"], input[type="time"], input[type="date"]').forEach(el => el.value = '');
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+    
+    const tbody = document.getElementById('equiposTableBody');
+    tbody.innerHTML = '';
+    for (let i = 0; i < 8; i++) {
+      agregarFilaSinBoton();
+    }
+    
+    limpiarFirma('firmaEntrega');
+    limpiarFirma('firmaRecibe');
+  }
+
+  function guardar() {
+    document.title = 'FOR_LAN_01__ACTA_ENTREGA_RECEPCION_EQUIPOS_NETWORKING';
+    window.print();
+  }
+
+  // ===== FIRMAS =====
+  const canvasIds = ['firmaEntrega', 'firmaRecibe'];
+  const contexts = {};
+
+  function initFirmas() {
+    canvasIds.forEach(id => {
+      const canvas = document.getElementById(id);
+      setupCanvas(canvas, id);
+    });
+  }
+
+  function setupCanvas(canvas, id) {
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      
+      const tempCanvas = document.createElement('canvas');
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCanvas.width = canvas.width;
+      tempCanvas.height = canvas.height;
+      tempCtx.drawImage(canvas, 0, 0);
+      
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      
+      if (tempCanvas.width > 0 && tempCanvas.height > 0) {
+        ctx.drawImage(tempCanvas, 0, 0, rect.width, rect.height);
+      }
+      
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+    }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    contexts[id] = { canvas, ctx, drawing: false, lastX: 0, lastY: 0 };
+
+    canvas.addEventListener('mousedown', e => { e.preventDefault(); startDraw(e, id); });
+    canvas.addEventListener('mousemove', e => { e.preventDefault(); draw(e, id); });
+    canvas.addEventListener('mouseup', () => stopDraw(id));
+    canvas.addEventListener('mouseout', () => stopDraw(id));
+
+    canvas.addEventListener('touchstart', e => { 
+      e.preventDefault(); 
+      e.stopPropagation();
+      startDraw(e.touches[0], id); 
+    }, { passive: false });
+    
+    canvas.addEventListener('touchmove', e => { 
+      e.preventDefault(); 
+      e.stopPropagation();
+      draw(e.touches[0], id); 
+    }, { passive: false });
+    
+    canvas.addEventListener('touchend', e => {
+      e.preventDefault();
+      stopDraw(id);
+    }, { passive: false });
+  }
+
+  function getCoords(e, id) {
+    const rect = contexts[id].canvas.getBoundingClientRect();
+    return { 
+      x: (e.clientX || e.pageX) - rect.left, 
+      y: (e.clientY || e.pageY) - rect.top 
+    };
+  }
+
+  function startDraw(e, id) {
+    const coords = getCoords(e, id);
+    contexts[id].drawing = true;
+    contexts[id].lastX = coords.x;
+    contexts[id].lastY = coords.y;
+    
+    const ctx = contexts[id].ctx;
+    ctx.beginPath();
+    ctx.arc(coords.x, coords.y, 1, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function draw(e, id) {
+    if (!contexts[id].drawing) return;
+    const coords = getCoords(e, id);
+    const ctx = contexts[id].ctx;
+    ctx.beginPath();
+    ctx.moveTo(contexts[id].lastX, contexts[id].lastY);
+    ctx.lineTo(coords.x, coords.y);
+    ctx.stroke();
+    contexts[id].lastX = coords.x;
+    contexts[id].lastY = coords.y;
+  }
+
+  function stopDraw(id) { contexts[id].drawing = false; }
+
+  function limpiarFirma(id) {
+    const canvas = contexts[id].canvas;
+    const ctx = contexts[id].ctx;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  // Inicializar
+  document.addEventListener('DOMContentLoaded', function() {
+    inicializarTabla();
+    initFirmas();
+  });
+</script>
+</body>
+</html>

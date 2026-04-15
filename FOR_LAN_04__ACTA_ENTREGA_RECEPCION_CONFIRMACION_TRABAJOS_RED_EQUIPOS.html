@@ -194,12 +194,12 @@
     </div>
   </div>
 
-  <!-- INTRO -->
+  
   <div class="intro-box">
     El presente documento deja constancia de que los trabajos solicitados al departamento Redes Lan, queda ejecutado en base a lo solicitado, y son recibidos a entera satisfacción y conformidad por el cliente( Interno y/o Externo)
   </div>
 
-  <!-- DATOS PRINCIPALES -->
+  
   <table class="form-table">
     <tr>
       <td class="label">NOMBRE DEL USUARIO:</td>
@@ -219,7 +219,7 @@
     </tr>
   </table>
 
-  <!-- FECHAS CON CALENDARIO -->
+  
   <table class="form-table">
     <tr>
       <td class="label" style="width:110px;">FECHA INICIO:</td>
@@ -229,7 +229,7 @@
     </tr>
   </table>
 
-  <!-- DETALLE -->
+ 
   <table class="form-table">
     <tr>
       <td class="label">DETALLE DE TRABAJO REALIZADO:</td>
@@ -245,12 +245,12 @@
     </tr>
   </table>
 
-  <!-- TEXTO CONSTANCIA -->
+  
   <div class="intro-box">
     Para constancia de lo ejecutado, se firma 1 ejemplar físico, el mismo que se digitalizará para subir al sistema de Telcos, para constancia de lo antes escrito.
   </div>
 
-  <!-- FECHA Y LUGAR -->
+  
   <div class="fecha-line">
     En la ciudad de <input type="text" style="width:90px;" placeholder="Ciudad"> a los <input type="text" style="width:35px;" placeholder="00"> días del mes de <input type="text" style="width:80px;" placeholder="Mes"> de <input type="text" style="width:50px;" placeholder="Año">
   </div>
@@ -278,7 +278,7 @@
       </div>
     </div>
 
-    <!-- RECIBE -->
+   
     <div class="firma-box">
       <div class="firma-title">RECIBE CONFORME</div>
       <div class="firma-subtitle">Usuario o persona que recibe</div>
@@ -304,7 +304,7 @@
     </div>
   </div>
 
-  <!-- BOTONES MEJORADOS -->
+  
   <div class="btn-wrap">
     <button class="btn btn-limpiar" onclick="limpiarFormulario()">
       <span class="btn-icon">🔄</span>
@@ -320,13 +320,13 @@
 </div>
 
 <script>
-  // Auto resize textareas
+
   function autoResize(el) {
     el.style.height = 'auto';
     el.style.height = el.scrollHeight + 'px';
   }
 
-  // Imprimir directamente
+  //IMPRIMIR -
   function imprimir() {
     document.title = 'FOR_LAN_04__ACTA_ENTREGA_RECEPCION_TELCONET';
     window.print();
@@ -378,7 +378,6 @@
     limpiarFirma('firmaRecibe');
   }
 
-  // ===== SISTEMA DE FIRMAS =====
   const canvasIds = ['firmaEntrega', 'firmaRecibe'];
   const contexts = {};
 
